@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hiệu ứng tình yêu rơi</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #ffd1dc; /* nền hồng pastel */
+      overflow: hidden;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .rain-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .char, .falling-image {
+      position: absolute;
+      user-select: none;
+      opacity: 0.9;
+      animation: fall linear infinite;
+    }
+
+    .char {
+      color: #ff1493;
+      text-shadow: 0 0 8px #ff69b4;
+      white-space: nowrap;
+      font-size: 24px;
+    }
+
+    .falling-image {
+      width: 160px;
+      height: 160px;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0.1;
+      }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nhạc nền -->
+  <audio autoplay loop>
+    <source src="love-song.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ audio.
+  </audio>
+
+  <!-- Container -->
+  <div class="rain-container" id="rain"></div>
+
+  <script>
+    const container = document.getElementById("rain");
+    const phrases = ["Vũ Tú Mây", "25/10/2001", "❤️", "我爱你", "宝贝"];
+    const imageUrls = [
+      "https://cdn-icons-png.flaticon.com/512/833/833472.png"
+    ];
+
+    function createChar() {
+      const charEl = document.createElement("div");
+      charEl.classList.add("char");
+      charEl.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+      charEl.style.left = Math.random() * window.innerWidth + "px";
+      charEl.style.animationDuration = (Math.random() * 3 + 2) + "s";
+      charEl.style.fontSize = (Math.random() * 10 + 20) + "px";
+      container.appendChild(charEl);
+
+      setTimeout(() => {
+        container.removeChild(charEl);
+      }, 6000);
+    }
+
+    function createImage() {
+      const imgEl = document.createElement("img");
+      imgEl.classList.add("falling-image");
+      imgEl.src = imageUrls[0];
+      imgEl.style.left = Math.random() * window.innerWidth + "px";
+      imgEl.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      container.appendChild(imgEl);
+
+      setTimeout(() => {
+        container.removeChild(imgEl);
+      }, 6000);
+    }
+
+    setInterval(() => {
+      for (let i = 0; i < 2; i++) {
+        createChar();
+      }
+      createImage(); // Chỉ 1 ảnh mỗi lần
+    }, 100);
+  </script>
+</body>
+</html>
